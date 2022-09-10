@@ -4,12 +4,12 @@
 Let's say your containerized application depends on some good-old executables to work, like cUrl for example. Today the 
 two options you have are either adding that executable to your main application image (potentially slowing down the 
 build time significantly) or you can build a bespoke service to wrap that executable so it can be package as a 
-standalone container - well, GrpcMe does the latter for you. 
+standalone container - well, GrpcMe does the latter for you, hopefully.  
 
 For example, turning cUrl into a GRPC service: 
 
 ```shell
-% % cat etc/configs/curl.toml 
+% cat etc/configs/curl.toml 
 listen = "127.0.0.1:8089"
 
 [executable.curl]
