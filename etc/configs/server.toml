@@ -1,0 +1,9 @@
+verbose = true
+default_timeout = "5m"
+
+[server]
+listen = "127.0.0.1:8089"
+
+[executable.date]
+path = "/bin/date"
+healthcheck_argument = ""

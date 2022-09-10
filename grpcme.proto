@@ -1,0 +1,17 @@
+syntax = "proto3";
+package grpcme;
+option go_package = "internal/pb";
+import "google/protobuf/duration.proto";
+
+message ExecRequest {
+  optional google.protobuf.Duration limit = 1;
+  optional string args = 2;
+}
+message ExecResponse {
+  string stdOut = 1;
+  string stdError = 2;
+  int32 resultCode = 3;
+}
+service GrpcMe {
+  rpc Exec(ExecRequest) returns (ExecResponse) {}
+}
