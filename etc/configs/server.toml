@@ -7,3 +7,11 @@ listen = "127.0.0.1:8089"
 [executable.date]
 path = "/bin/date"
 healthcheck_argument = ""
+
+[executable.uuid]
+path = "/usr/bin/uuidgen"
+healthcheck_argument = ""
+
+[executable.curl]
+path = "/usr/bin/curl"
+healthcheck_argument = "--version"
