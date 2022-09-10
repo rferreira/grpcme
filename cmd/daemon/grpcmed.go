@@ -2,11 +2,11 @@ package main
 
 import (
 	"github.com/pelletier/go-toml/v2"
+	"github.com/rferreira/grpcme/internal/pb"
+	"github.com/rferreira/grpcme/internal/service"
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	"grpcme/internal/pb"
-	"grpcme/internal/service"
 	"io/ioutil"
 	"net"
 	"os"

@@ -1,4 +1,4 @@
-module grpcme
+module github.com/rferreira/grpcme
 
 go 1.18
 

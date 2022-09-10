@@ -2,8 +2,8 @@ package pb
 
 import (
 	"context"
+	"github.com/rferreira/grpcme/internal/service"
 	log "github.com/sirupsen/logrus"
-	"grpcme/internal/service"
 	"time"
 )
 
