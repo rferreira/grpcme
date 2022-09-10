@@ -19,9 +19,6 @@ type DefaultGrpcMeServer struct {
 
 func (it DefaultGrpcMeServer) Exec(ctx context.Context, request *ExecRequest) (*ExecResponse, error) {
 	startTime := time.Now()
-	defer func() {
-		log.Infof("request completed in %s", time.Now().Sub(startTime))
-	}()
 
 	var duration time.Duration
 	if request.Limit.IsValid() {
@@ -36,8 +33,13 @@ func (it DefaultGrpcMeServer) Exec(ctx context.Context, request *ExecRequest) (*
 
 	result, err := it.service.Handle(ctx, request.Id, duration, args)
 	if err != nil {
+		log.Errorf("Error: %s", err)
 		return nil, err
 	}
+
+	defer func() {
+		log.Infof("REQ: [%s] completed in %s with exit code: %d", request.GetId(), time.Now().Sub(startTime), result.ResultCode)
+	}()
 
 	return &ExecResponse{
 		StdOut:     result.StdOut,

@@ -1,8 +1,5 @@
-verbose = true
+verbose = false
 default_timeout = "5m"
-listen = "127.0.0.1:8089"
-
-[server]
 listen = "127.0.0.1:8089"
 
 [executable.date]

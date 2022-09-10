@@ -47,7 +47,6 @@ func (receiver *Service) String() string {
 }
 
 func validate(it ExecutableDefinition, verbose bool) error {
-	log.Infof("wrapping executable %s", it.Path)
 	path, err := exec.LookPath(it.Path)
 	if err != nil {
 		return err
