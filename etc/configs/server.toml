@@ -1,5 +1,6 @@
 verbose = true
 default_timeout = "5m"
+listen = "127.0.0.1:8089"
 
 [server]
 listen = "127.0.0.1:8089"
@@ -14,4 +15,8 @@ healthcheck_argument = ""
 
 [executable.curl]
 path = "/usr/bin/curl"
+healthcheck_argument = "--version"
+
+[executable.yara]
+path = "/opt/homebrew/bin/yara"
 healthcheck_argument = "--version"

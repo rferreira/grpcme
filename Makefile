@@ -1,4 +1,5 @@
-all: build-server build-client
+PACKAGES=./internal...
+all: build-client build-server
 
 proto-deps:
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
@@ -13,6 +14,7 @@ proto-gen:
 		grpcme.proto
 
 clean:
+	go clean
 	rm -rf dist
 
 build-server:
@@ -20,3 +22,12 @@ build-server:
 
 build-client:
 	go build -o dist/grpcme cmd/client/grpcme.go
+
+test:
+	go test ${PACKAGES} -v
+
+vet:
+	go vet ${PACKAGES}
+
+fmt:
+	go fmt ${PACKAGES}

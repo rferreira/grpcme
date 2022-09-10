@@ -3,18 +3,18 @@ package pb
 import (
 	"context"
 	log "github.com/sirupsen/logrus"
-	"grpcme/internal/runner"
+	"grpcme/internal/service"
 	"time"
 )
 
-func NewGrpcMeServer(path string) GrpcMeServer {
+func NewGrpcMeServer(it *service.Service) GrpcMeServer {
 	return &DefaultGrpcMeServer{
-		path: path,
+		service: it,
 	}
 }
 
 type DefaultGrpcMeServer struct {
-	path string
+	service *service.Service
 }
 
 func (it DefaultGrpcMeServer) Exec(ctx context.Context, request *ExecRequest) (*ExecResponse, error) {
@@ -34,7 +34,7 @@ func (it DefaultGrpcMeServer) Exec(ctx context.Context, request *ExecRequest) (*
 		args = *request.Args
 	}
 
-	result, err := runner.Run(ctx, it.path, duration, args)
+	result, err := it.service.Handle(ctx, request.Id, duration, args)
 	if err != nil {
 		return nil, err
 	}

@@ -1,4 +1,4 @@
-package server
+package service
 
 import "time"
 
@@ -6,6 +6,7 @@ type Config struct {
 	Verbose        bool
 	DefaultTimeout durationWrapper                 `toml:"default_timeout"`
 	Executables    map[string]ExecutableDefinition `toml:"executable"`
+	Listen         string
 }
 
 type ExecutableDefinition struct {

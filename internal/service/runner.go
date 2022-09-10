@@ -1,9 +1,10 @@
-package runner
+package service
 
 import (
 	"context"
 	log "github.com/sirupsen/logrus"
 	"os/exec"
+	"strings"
 	"time"
 )
 
@@ -13,8 +14,8 @@ type Result struct {
 	StdError   string
 }
 
-// Run Executes a path with the desired runtime limit without performing any validation of the path
-func Run(ctx context.Context, path string, limit time.Duration, optionalArgs string) (*Result, error) {
+// run Executes a path with the desired runtime limit without performing any validation of the path
+func run(ctx context.Context, path string, limit time.Duration, args string) (*Result, error) {
 	if limit.Nanoseconds() > 0 {
 		log.Debugf("processing custom runtime limit of %dms", limit)
 		it, cf := context.WithTimeout(ctx, limit)
@@ -24,16 +25,11 @@ func Run(ctx context.Context, path string, limit time.Duration, optionalArgs str
 		}()
 	}
 
-	var args []string
-
-	if len(optionalArgs) > 0 {
-		args = append(args, optionalArgs)
-	}
 	log.Debugf("arguments: %s", args)
-	stdout, err := exec.CommandContext(ctx, path, args...).Output()
+	stdout, err := exec.CommandContext(ctx, path, strings.Fields(args)...).Output()
 
 	result := Result{
-		StdOut:     string(stdout),
+		StdOut:     strings.TrimSuffix(string(stdout), "\n"),
 		ResultCode: 0,
 	}
 

@@ -3,13 +3,17 @@ package main
 import (
 	"github.com/pelletier/go-toml/v2"
 	log "github.com/sirupsen/logrus"
-	"grpcme/internal/server"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
+	"grpcme/internal/pb"
+	"grpcme/internal/service"
 	"io/ioutil"
+	"net"
 	"os"
 )
 
 var usage = `Usage:
-	./grpcmed CONFIG-FILE.toml
+	./grpcmed config.toml
 `
 
 func main() {
@@ -26,7 +30,7 @@ func main() {
 	filename := os.Args[1]
 	log.Printf("parsing %s", filename)
 
-	var config = server.Config{}
+	var config = service.Config{}
 	contents, err := ioutil.ReadFile(filename)
 	if err != nil {
 		log.Fatal(err)
@@ -42,25 +46,23 @@ func main() {
 		log.Debugf("Running in verbose mode...")
 	}
 
-	err, srv := server.New(config)
+	srv, err := service.New(&config)
 	if err != nil {
 		log.Fatal(err)
 	}
 	log.Printf(srv.String())
 
-	//executable := flag.Arg(0)
-	//log.Printf("pre-flight check passed, starting GRPC service...")
-	//var opts []grpc.ServerOption
-	//lis, err := net.Listen("tcp", *address)
-	//if err != nil {
-	//	log.Fatalf("failed to listen: %v", err)
-	//}
-	//log.Printf("Listening on %s", *address)
-	//grpcServer := grpc.NewServer(opts...)
-	//pb.RegisterGrpcMeServer(grpcServer, pb.NewGrpcMeServer(path))
-	//reflection.Register(grpcServer)
-	//err = grpcServer.Serve(lis)
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
+	var opts []grpc.ServerOption
+	lis, err := net.Listen("tcp", config.Listen)
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+	log.Printf("Listening on %s", config.Listen)
+	grpcServer := grpc.NewServer(opts...)
+	pb.RegisterGrpcMeServer(grpcServer, pb.NewGrpcMeServer(srv))
+	reflection.Register(grpcServer)
+	err = grpcServer.Serve(lis)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

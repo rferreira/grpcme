@@ -4,8 +4,9 @@ option go_package = "internal/pb";
 import "google/protobuf/duration.proto";
 
 message ExecRequest {
-  optional google.protobuf.Duration limit = 1;
-  optional string args = 2;
+  string id = 1;
+  optional google.protobuf.Duration limit = 2;
+  optional string args = 3;
 }
 message ExecResponse {
   string stdOut = 1;
