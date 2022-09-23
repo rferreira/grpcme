@@ -13,6 +13,6 @@ message ExecResponse {
   string stdError = 2;
   int32 resultCode = 3;
 }
-service GrpcMe {
+service Exec {
   rpc Exec(ExecRequest) returns (ExecResponse) {}
 }

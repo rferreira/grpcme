@@ -18,86 +18,86 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// GrpcMeClient is the client API for GrpcMe service.
+// ExecClient is the client API for Exec service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type GrpcMeClient interface {
+type ExecClient interface {
 	Exec(ctx context.Context, in *ExecRequest, opts ...grpc.CallOption) (*ExecResponse, error)
 }
 
-type grpcMeClient struct {
+type execClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewGrpcMeClient(cc grpc.ClientConnInterface) GrpcMeClient {
-	return &grpcMeClient{cc}
+func NewExecClient(cc grpc.ClientConnInterface) ExecClient {
+	return &execClient{cc}
 }
 
-func (c *grpcMeClient) Exec(ctx context.Context, in *ExecRequest, opts ...grpc.CallOption) (*ExecResponse, error) {
+func (c *execClient) Exec(ctx context.Context, in *ExecRequest, opts ...grpc.CallOption) (*ExecResponse, error) {
 	out := new(ExecResponse)
-	err := c.cc.Invoke(ctx, "/grpcme.GrpcMe/Exec", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/grpcme.Exec/Exec", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// GrpcMeServer is the server API for GrpcMe service.
-// All implementations must embed UnimplementedGrpcMeServer
+// ExecServer is the server API for Exec service.
+// All implementations must embed UnimplementedExecServer
 // for forward compatibility
-type GrpcMeServer interface {
+type ExecServer interface {
 	Exec(context.Context, *ExecRequest) (*ExecResponse, error)
-	mustEmbedUnimplementedGrpcMeServer()
+	mustEmbedUnimplementedExecServer()
 }
 
-// UnimplementedGrpcMeServer must be embedded to have forward compatible implementations.
-type UnimplementedGrpcMeServer struct {
+// UnimplementedExecServer must be embedded to have forward compatible implementations.
+type UnimplementedExecServer struct {
 }
 
-func (UnimplementedGrpcMeServer) Exec(context.Context, *ExecRequest) (*ExecResponse, error) {
+func (UnimplementedExecServer) Exec(context.Context, *ExecRequest) (*ExecResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Exec not implemented")
 }
-func (UnimplementedGrpcMeServer) mustEmbedUnimplementedGrpcMeServer() {}
+func (UnimplementedExecServer) mustEmbedUnimplementedExecServer() {}
 
-// UnsafeGrpcMeServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to GrpcMeServer will
+// UnsafeExecServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ExecServer will
 // result in compilation errors.
-type UnsafeGrpcMeServer interface {
-	mustEmbedUnimplementedGrpcMeServer()
+type UnsafeExecServer interface {
+	mustEmbedUnimplementedExecServer()
 }
 
-func RegisterGrpcMeServer(s grpc.ServiceRegistrar, srv GrpcMeServer) {
-	s.RegisterService(&GrpcMe_ServiceDesc, srv)
+func RegisterExecServer(s grpc.ServiceRegistrar, srv ExecServer) {
+	s.RegisterService(&Exec_ServiceDesc, srv)
 }
 
-func _GrpcMe_Exec_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Exec_Exec_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ExecRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GrpcMeServer).Exec(ctx, in)
+		return srv.(ExecServer).Exec(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpcme.GrpcMe/Exec",
+		FullMethod: "/grpcme.Exec/Exec",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GrpcMeServer).Exec(ctx, req.(*ExecRequest))
+		return srv.(ExecServer).Exec(ctx, req.(*ExecRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// GrpcMe_ServiceDesc is the grpc.ServiceDesc for GrpcMe service.
+// Exec_ServiceDesc is the grpc.ServiceDesc for Exec service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var GrpcMe_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "grpcme.GrpcMe",
-	HandlerType: (*GrpcMeServer)(nil),
+var Exec_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "grpcme.Exec",
+	HandlerType: (*ExecServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Exec",
-			Handler:    _GrpcMe_Exec_Handler,
+			Handler:    _Exec_Exec_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

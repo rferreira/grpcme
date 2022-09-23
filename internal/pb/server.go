@@ -7,17 +7,22 @@ import (
 	"time"
 )
 
-func NewGrpcMeServer(it *service.Service) GrpcMeServer {
-	return &DefaultGrpcMeServer{
+func NewGrpcMeServer(it *service.Service) ExecServer {
+	return &DefaultExecServer{
 		service: it,
 	}
 }
 
-type DefaultGrpcMeServer struct {
+type DefaultExecServer struct {
 	service *service.Service
 }
 
-func (it DefaultGrpcMeServer) Exec(ctx context.Context, request *ExecRequest) (*ExecResponse, error) {
+func (it *DefaultExecServer) mustEmbedUnimplementedExecServer() {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (it *DefaultExecServer) Exec(ctx context.Context, request *ExecRequest) (*ExecResponse, error) {
 	startTime := time.Now()
 
 	var duration time.Duration
@@ -46,9 +51,4 @@ func (it DefaultGrpcMeServer) Exec(ctx context.Context, request *ExecRequest) (*
 		ResultCode: int32(result.ResultCode),
 		StdError:   result.StdError,
 	}, err
-}
-
-func (DefaultGrpcMeServer) mustEmbedUnimplementedGrpcMeServer() {
-	//TODO implement me
-	panic("implement me")
 }
