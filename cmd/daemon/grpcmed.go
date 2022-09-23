@@ -59,7 +59,7 @@ func main() {
 	}
 	log.Printf("Listening on %s", config.Listen)
 	grpcServer := grpc.NewServer(opts...)
-	pb.RegisterGrpcMeServer(grpcServer, pb.NewGrpcMeServer(srv))
+	pb.RegisterExecServer(grpcServer, pb.NewExecServer(srv))
 	reflection.Register(grpcServer)
 	err = grpcServer.Serve(lis)
 	if err != nil {

@@ -47,7 +47,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	client := pb.NewGrpcMeClient(conn)
+	client := pb.NewExecClient(conn)
 
 	exec, err := client.Exec(context.Background(), &pb.ExecRequest{
 		Id:   id,

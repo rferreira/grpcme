@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func NewGrpcMeServer(it *service.Service) ExecServer {
+func NewExecServer(it *service.Service) ExecServer {
 	return &DefaultExecServer{
 		service: it,
 	}
